@@ -42,7 +42,7 @@ public class ParseConFile {
 			Document aDocument = aDocumentBuilder.parse(file);
 			return aDocument;
 		} catch (ParserConfigurationException e) {
-			log.error(" ParserConfigurationException occurred to the method of getXMLFile",e);
+			log.error(" ParserConfigurationException occurred to the method of getXMLFile", e);
 			return null;
 		} catch (IOException e) {
 			log.error("IOException occurred to the method of getXMLFile", e);
@@ -58,13 +58,12 @@ public class ParseConFile {
 	 * @param aDocument
 	 */
 	public static void updateXMLFile(Document aDocument) {
-		TransformerFactory aTransformerFactory = TransformerFactory
-				.newInstance();
+		TransformerFactory aTransformerFactory = TransformerFactory.newInstance();
 		Transformer aTransformer = null;
 		try {
 			aTransformer = aTransformerFactory.newTransformer();
 		} catch (TransformerConfigurationException e) {
-			log.error(" TransformerConfigurationException occurred to the method of updateXMLFile",e);
+			log.error(" TransformerConfigurationException occurred to the method of updateXMLFile", e);
 		}
 		aTransformer.setOutputProperty(OutputKeys.ENCODING, "GBK");
 		DOMSource source = new DOMSource(aDocument);
@@ -72,7 +71,7 @@ public class ParseConFile {
 		try {
 			aTransformer.transform(source, result);
 		} catch (TransformerException e) {
-			log.error(" TransformerException occurred to the method of updateXMLFile",e);
+			log.error(" TransformerException occurred to the method of updateXMLFile", e);
 		}
 	}
 }

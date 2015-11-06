@@ -70,14 +70,16 @@ public class ConFileProcess {
 		Document aDocument = ParseConFile.getXMLFile();
 		NodeList childNodes = aDocument.getElementsByTagName("MachineInfo");
 		String addLogPath = addMachineInfoList.get(0).getLogPath();
-		boolean judgeLogPathFlag = true;
+		//It is used to determine a given LogPath node has exists in ConXMLFile ,or not
+		boolean judgeLogPathFlag = true;  
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			Element MachineInfoElement = (Element) childNodes.item(i);
 			LogPath = MachineInfoElement.getElementsByTagName("LogPath")
 					.item(0).getFirstChild().getNodeValue();
 			if (LogPath.equals(addLogPath)) {
 				judgeLogPathFlag = false;
-				boolean judgeIpFlag = true;
+				//It is used to determine a given Ip child node has exists in a LogPath node ,or not
+				boolean judgeIpFlag = true; 
 				Element IpListElement = (Element) MachineInfoElement
 						.getElementsByTagName("IpList").item(0);
 				IpList = IpListElement.getElementsByTagName("Ip");
@@ -90,23 +92,18 @@ public class ConFileProcess {
 							break;
 						}
 					}
-					//If judgeIpFlag's value is true ,that means the Ip does not exist
+					//If judgeIpFlag's value is true ,that means the Ip does not exists
 					//in the LogPath node,so it should be added to the LogPath node
 					if(judgeIpFlag) {
 						String addRemarks = addMachineInfo.getRemarks();
-						Remarks = MachineInfoElement
-								.getElementsByTagName("Remarks").item(0)
+						Remarks = MachineInfoElement.getElementsByTagName("Remarks").item(0)
 								.getFirstChild().getNodeValue();
 						// update the value of Remarks node
 						MachineInfoElement.getElementsByTagName("Remarks").item(0)
-								.getFirstChild()
-								.setNodeValue(Remarks + "," + addRemarks);
-
+								.getFirstChild().setNodeValue(Remarks + "," + addRemarks);
 						Element Ip = aDocument.createElement("Ip");
-						Ip.appendChild(aDocument.createTextNode(addMachineInfo
-								.getIp()));
-						Node IpList = MachineInfoElement.getElementsByTagName(
-								"IpList").item(0);
+						Ip.appendChild(aDocument.createTextNode(addMachineInfo.getIp()));
+						Node IpList = MachineInfoElement.getElementsByTagName("IpList").item(0);
 						IpList.appendChild(Ip);
 						// update the ConXMLFile
 						ParseConFile.updateXMLFile(aDocument);
@@ -152,8 +149,6 @@ public class ConFileProcess {
 			ParseConFile.updateXMLFile(aDocument);
 			log.info("Successed in adding a MachineInfo node to ConXMLFile");
 		}
-		
-		
 	}
 
 	/**
@@ -165,6 +160,7 @@ public class ConFileProcess {
 		Document aDocument = ParseConFile.getXMLFile();
 		NodeList childNodes = aDocument.getElementsByTagName("MachineInfo");
 		String deleteLogPath = deleteMachineInfoList.get(0).getLogPath();
+		//It is used to determine a given LogPath node has exists in ConXMLFile ,or not
 		boolean judgeLogPathFlag = true;
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			Element MachineInfoElement = (Element) childNodes.item(i);
@@ -180,16 +176,12 @@ public class ConFileProcess {
 						Ip = IpList.item(j).getFirstChild().getNodeValue();
 						if (Ip.equals(deleteMachineInfo.getIp())) {
 							IpListElement.removeChild(IpList.item(j));
-							String deleteRemarks = deleteMachineInfo
-									.getRemarks();
-							Remarks = MachineInfoElement
-									.getElementsByTagName("Remarks").item(0)
+							String deleteRemarks = deleteMachineInfo.getRemarks();
+							Remarks = MachineInfoElement.getElementsByTagName("Remarks").item(0)
 									.getFirstChild().getNodeValue();
-							String changedRemarks = Remarks.replace(","
-									+ deleteRemarks, "");
+							String changedRemarks = Remarks.replace("," + deleteRemarks, "");
 							// update the value of Remarks node
-							MachineInfoElement.getElementsByTagName("Remarks")
-									.item(0).getFirstChild()
+							MachineInfoElement.getElementsByTagName("Remarks").item(0).getFirstChild()
 									.setNodeValue(changedRemarks);
 							break;
 						}

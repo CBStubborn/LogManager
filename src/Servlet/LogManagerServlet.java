@@ -66,7 +66,7 @@ public class LogManagerServlet extends HttpServlet {
 		ConFileProcess aConFileProcess = new ConFileProcess();
 		String IpContext = req.getParameter("Ip");
 		String RemarksContext = req.getParameter("Remarks");
-		String[] IpList = IpContext.split(";ï¼›\n\r");
+		String[] IpList = IpContext.split(";£»n\r");
 		String[] RemarksList = RemarksContext.split(";");
 		for (int i = 0; i < IpList.length; i++) {
 			InitMachine im = new InitMachine();
@@ -93,7 +93,7 @@ public class LogManagerServlet extends HttpServlet {
 		ConFileProcess aConFileProcess = new ConFileProcess();
 		String IpContext = req.getParameter("Ip");
 		String RemarksContext = req.getParameter("Remarks");
-		String[] IpList = IpContext.split(";ï¼›\n\r");
+		String[] IpList = IpContext.split(";£»n\r");
 		String[] RemarksList = RemarksContext.split(";");
 		for (int i = 0; i < IpList.length; i++) {
 			InitMachine im = new InitMachine();

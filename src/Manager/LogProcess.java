@@ -18,15 +18,11 @@ import com.sshtools.j2ssh.sftp.SftpFile;
  *
  */
 public class LogProcess {
-	private static final Logger log = LoggerFactory
-			.getLogger(RemoteConnection.class);
+	private static final Logger log = LoggerFactory.getLogger(RemoteConnection.class);
 
 	/**
 	 * This method is used to get all log file
-	 * 
 	 * @param path the LogPath
-	 *       
-	 * 
 	 * @param sftp
 	 */
 	@SuppressWarnings("unchecked")
@@ -40,29 +36,22 @@ public class LogProcess {
 					String fileName = file.getFilename();
 					if (fileName.contains(".log") || fileName.contains(".out")) {
 						// The file's last modified time
-						long fileModifyTime = file.getAttributes()
-								.getModTimeString();
+						long fileModifyTime = file.getAttributes().getModTimeString();
 						// Current time
 						long nowTime = System.currentTimeMillis();
-						// if a Log file has remained exceeded 6 month,then
-						// it should be deleted
+						// if a Log file has remained exceeded 6 month,then it should be deleted
 						if ((nowTime - fileModifyTime) > (6 * 30 * 24 * 60 * 60 * 1000L)) {
-							// removeFile(file);
+							removeFile(file);
 						} else {
-							String commandResult = execCommand("cd " + aPath
-									+ ";" + "du -sh " + fileName);
+							String commandResult = execCommand("cd " + aPath + ";" + "du -sh " + fileName);
 							if (commandResult != null) {
-								String size = commandResult.replace(fileName,
-										" ").trim();
+								String size = commandResult.replace(fileName, " ").trim();
 								float convertSize = unitConvert(size);
-								// if a Log file has exceeded 2G,then it
-								// should be deleted
+								// if a Log file has exceeded 2G,then it should be deleted
 								if (convertSize >= 2.0) {
-									// removeFile(file);
+									removeFile(file);
 								}
-							} else {
-								log.info("commandResult is Null");
-							}
+							} 
 						}
 					}
 				} else {
@@ -85,7 +74,7 @@ public class LogProcess {
 			file.delete();
 			log.info(file.getFilename() + " has been removed !");
 		} catch (IOException e) {
-			log.error(" IOException occurred to the method of removeFile ", e);
+			log.error("IOException occurred to the method of removeFile", e);
 		}
 	}
 
@@ -98,11 +87,9 @@ public class LogProcess {
 	public static String execCommand(String command) {
 		String line = null;
 		try {
-			SessionChannelClient Session = RemoteConnection.client
-					.openSessionChannel();
+			SessionChannelClient Session = RemoteConnection.client.openSessionChannel();
 			Session.executeCommand(command);
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					Session.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(Session.getInputStream()));
 			line = in.readLine();
 			Session.close();
 		} catch (IOException e) {

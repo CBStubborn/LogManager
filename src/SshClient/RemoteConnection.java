@@ -47,8 +47,7 @@ public class RemoteConnection {
 					client.disconnect();
 				}
 			} catch (IOException e) {
-				log.error(" IOException occurred to the method of Connection ",
-						e);
+				log.error(" IOException occurred to the method of Connection ", e);
 				log.warn("This Machine was failed to conntect: ", init.getIp());
 			}
 		}
